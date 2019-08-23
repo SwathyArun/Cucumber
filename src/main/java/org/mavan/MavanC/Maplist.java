@@ -1,6 +1,7 @@
 package org.mavan.MavanC;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class ListList {
+public class Maplist {
 	WebDriver d;
 
 	@Given("^User launch facebook application$")
@@ -39,37 +40,40 @@ public class ListList {
 	}
 
 	@When("^User enter username and password$")
-	public void user_enter_username_and_password(DataTable listof) {
-//List<String> L = list.asList(String.class);
-		// d.findElement(By.id("email")).sendKeys(L.get(0));
-		// d.findElement(By.id("pass")).sendKeys(L.get(1));
-		List<List<String>> datas = listof.asLists(String.class);
-		d.findElement(By.id("email")).sendKeys(datas.get(0).get(1));
-		d.findElement(By.id("pass")).sendKeys(datas.get(1).get(0));
+	public void user_enter_username_and_password(DataTable map) {
+	/*	Map<String, String> datas = map.asMap(String.class, String.class);
+		d.findElement(By.id("email")).sendKeys(datas.get("username"));
+		d.findElement(By.id("pass")).sendKeys(datas.get("password"));
+	*/
+		List<Map<String, String>> datas = map.asMaps(String.class, String.class);
+		d.findElement(By.id("email")).sendKeys(datas.get(0).get("username"));
+		d.findElement(By.id("pass")).sendKeys(datas.get(0).get("password"));
+	
 	}
 
 	@When("^User enter firstname,lastname and phoneno$")
-	public void user_enter_firstname_lastname_and_phoneno(DataTable list) {
-		/*
-		 * List<String> datas = list.asList(String.class);
-		 * d.findElement(By.name("firstname")).sendKeys(datas.get(0));
-		 * d.findElement(By.name("lastname")).sendKeys(datas.get(1));
-		 * d.findElement(By.name("reg_email__")).sendKeys(datas.get(2));
-		 */
-		List<List<String>> datas = list.asLists(String.class);
-		d.findElement(By.name("firstname")).sendKeys(datas.get(1).get(0));
-		d.findElement(By.name("lastname")).sendKeys(datas.get(1).get(1));
-		d.findElement(By.name("reg_email__")).sendKeys(datas.get(0).get(2));
+	public void user_enter_firstname_lastname_and_phoneno(DataTable map) {
+	/*	Map<String, String> datas = map.asMap(String.class, String.class);
 
+		d.findElement(By.name("firstname")).sendKeys(datas.get("firstname"));
+		d.findElement(By.name("lastname")).sendKeys(datas.get("lastname"));
+		d.findElement(By.name("reg_email__")).sendKeys(datas.get("phoneno"));
+*/
+		List<Map<String, String>> datas = map.asMaps(String.class, String.class);
+		d.findElement(By.name("firstname")).sendKeys(datas.get(0).get("firstname"));
+		d.findElement(By.name("lastname")).sendKeys(datas.get(1).get("lastname"));
+		d.findElement(By.name("reg_email__")).sendKeys(datas.get(0).get("phoneno"));
+		
+		
 	}
 
 	@When("^user click register button$")
 	public void user_click_register_button() {
-		//WebElement f = d.findElement(By.id("loginbutton"));
-WebElement f = d.findElement(By.xpath("//input[@type='submit']"));
+		WebElement f = d.findElement(By.xpath("//input[@type='submit']"));
 		String a = f.getAttribute("value");
 		System.out.println(a);
 		f.click();
+
 	}
 
 	@Then("^user check navigate url$")
@@ -81,7 +85,7 @@ WebElement f = d.findElement(By.xpath("//input[@type='submit']"));
 
 	@Then("^User closes the browser$")
 	public void user_closes_the_browser() {
-		d.close();
+		d.quit();
 
 	}
 
